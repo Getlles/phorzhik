@@ -1,4 +1,4 @@
-export type ThemeName = 'auth' | 'login' | 'edit' | 'personal';
+export type ThemeName = 'auth' | 'login' | 'edit' | 'account';
 
 export interface ThemeColors {
   background: string;
@@ -18,7 +18,7 @@ export const themeColors: Record<ThemeName, ThemeColors> = {
     background: 'var(--bg-header-footer-edit)',
     circle: 'var(--color-circle-edit)',
   },
-  personal: {
+  account: {
     background: 'var(--bg-header-footer)',
     circle: 'var(--color-circle-personal)',
   },
