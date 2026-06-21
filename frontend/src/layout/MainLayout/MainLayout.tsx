@@ -3,16 +3,16 @@ import { Footer } from '../Footer/Footer';
 import styles from './MainLayout.module.css';
 import type { ThemeName } from '../../styles/themes';
 import { themeColors } from '../../styles/themes';
+import { Outlet } from 'react-router-dom';
 
 interface LayoutProps {
-  children: React.ReactNode;
   theme?: ThemeName;
 }
 
-export const MainLayout = ({ children, theme = 'login' }: LayoutProps) => {
-   const currentTheme = themeColors[theme];
+export const MainLayout = ({ theme = 'login' }: LayoutProps) => {
+  const currentTheme = themeColors[theme];
 
-   return (
+  return (
     <div className={styles.container}>
       <Header 
         backgroundColor={currentTheme.background}
@@ -20,7 +20,7 @@ export const MainLayout = ({ children, theme = 'login' }: LayoutProps) => {
       />
       
       <div className={styles.mainContent}>
-        {children}
+        <Outlet />
       </div>
       
       <Footer backgroundColor={currentTheme.background} />
