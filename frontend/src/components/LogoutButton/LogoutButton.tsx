@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import styles from './LogoutButton.module.css';
 
 interface LogoutButtonProps {
@@ -7,16 +7,10 @@ interface LogoutButtonProps {
 }
 
 export const LogoutButton = ({ label, icon }: LogoutButtonProps) => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('token'); 
-    
-    navigate('/login');
-  };
+  const { logout } = useAuth();
 
   return (
-    <button onClick={handleLogout} className={styles.button}>
+    <button onClick={logout} className={styles.button}>
       <img className={styles.icon} src={icon} alt="" />
       <span className={styles.text}>{label}</span>
     </button>
