@@ -1,0 +1,27 @@
+.button {
+  width: 100%;
+  padding: 18px 24px;
+  background-color: transparent;
+  border: 2px solid var(--input-btn-border-auth);
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--btn-text-auth);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.button:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+  opacity: 0.7;
+}
+
+.button:focus {
+  outline: none;
+}
