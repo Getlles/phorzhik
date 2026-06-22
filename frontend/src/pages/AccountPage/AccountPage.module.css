@@ -1,0 +1,74 @@
+.container {
+  height: 100%;
+  background-color: #CABE93;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.innerContent {
+  position: relative;
+  z-index: 2;
+  padding: 50px;
+  overflow-y: auto;
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-family: sans-serif;
+  font-size: 32px;
+  color: #413A26;
+  margin-bottom: 40px;
+  font-weight: 500;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+}
+
+.decor {
+  position: absolute;
+  border: 2px solid #1E1F1A;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.15;
+  z-index: 1;
+}
+
+.decor1 {
+  width: 300px;
+  height: 300px;
+  top: -50px;
+  right: 10%;
+}
+
+.decor2 {
+  width: 400px;
+  height: 400px;
+  bottom: -150px;
+  right: -50px;
+}
+
+.decor3 {
+  width: 250px;
+  height: 250px;
+  bottom: -80px;
+  left: 20%;
+}
+
+.decor4 {
+  width: 350px;
+  height: 350px;
+  top: 30%;
+  left: -100px;
+}
