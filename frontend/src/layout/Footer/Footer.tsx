@@ -10,7 +10,6 @@ export const Footer = ({ backgroundColor }: FooterProps) => {
       className={styles.footer}
       style={{ backgroundColor }}
     >
-        
     </footer>
   );
 };
