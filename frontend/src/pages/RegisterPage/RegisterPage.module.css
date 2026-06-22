@@ -1,0 +1,149 @@
+.container {
+  height: 100%;
+  background-color: #8D997A;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wave {
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  left: -20%;
+  width: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wave1 {
+  background-color: #719176;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  transform: scale(1.5) translateX(-20%);
+}
+
+.wave2 {
+  background-color: #657B5A;
+  border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%;
+  transform: scale(1.4) translateX(-10%);
+  z-index: 2;
+}
+
+.wave3 {
+  background-color: #847A5A;
+  border-radius: 30% 70% 50% 50% / 50% 30% 70% 50%;
+  transform: scale(1.3) translateX(5%);
+  z-index: 3;
+}
+
+.logoText {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  font-size: 80px;
+  font-family: sans-serif;
+  color: #4A3A2C;
+  z-index: 4;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.formWrapper {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 20%;
+}
+
+.title {
+  font-family: sans-serif;
+  font-size: 36px;
+  color: #1E2A1C;
+  margin-bottom: 50px;
+  font-weight: 500;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  cursor: pointer;
+}
+
+.checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #1E2A1C;
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox:checked::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: #1E2A1C;
+  border-radius: 2px;
+}
+
+.checkboxLabel {
+  font-size: 14px;
+  color: #1E2A1C;
+  max-width: 350px;
+  line-height: 1.4;
+}
+
+.link {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.btnWrapper {
+  width: 350px;
+  margin-bottom: 16px;
+}
+
+.loginText {
+  font-size: 14px;
+  color: #1E2A1C;
+}
+
+.loginLink {
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.error {
+  color: #8c1e1e;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
