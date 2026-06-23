@@ -1,0 +1,19 @@
+.button {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: #938981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding: 0;
+}
+
+.icon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  pointer-events: none;
+}
