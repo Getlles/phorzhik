@@ -18,16 +18,19 @@ export const Header = ({ backgroundColor, circleColor }: HeaderProps) => {
         <span className={styles.title}>Форжик</span>
       </div>
 
+      {}
       <div className={styles.container}>
-        <div 
-          className={styles.circle}
-          style={{ backgroundColor: circleColor }}
-        ></div>
-        <img 
-          src={rim} 
-          alt="" 
-          className={styles.rim}
-        />
+        <div className={styles.circleWrapper}>
+          <img 
+            src={rim} 
+            alt="" 
+            className={styles.rim}
+          />
+          <div 
+            className={styles.circle}
+            style={{ backgroundColor: circleColor }}
+          />
+        </div>
       </div>
     </header>
   );

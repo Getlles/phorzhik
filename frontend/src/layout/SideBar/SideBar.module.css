@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
-  background-color: red;
+  background-color: var(--bg-header-footer);
 }
 
 .menuItems {
