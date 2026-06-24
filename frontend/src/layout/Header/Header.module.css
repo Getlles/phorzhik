@@ -20,6 +20,13 @@
   height: 52px;
 }
 
+.title{
+  color: #CABE93;
+  font-family: 'Times New Roman', Times, serif;
+
+}
+
+
 
 .circleWrapper {
   position: relative; 
