@@ -1,8 +1,9 @@
 .button {
   width: 44px;
   height: 44px;
-  border-radius: 12px;
-  background-color: #938981;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,9 +12,14 @@
   padding: 0;
 }
 
+.button:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
 .icon {
-  width: 42px;
-  height: 42px;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
   pointer-events: none;
 }
