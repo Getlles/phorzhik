@@ -3,7 +3,7 @@ import { LogoutButton } from '../../components/LogoutButton/LogoutButton';
 import styles from './SideBar.module.css';
 import photos from '../../assets/photos.svg';
 import redact from '../../assets/redact.svg';
-import back from '../../assets/back.svg';
+import logout from '../../assets/logout.svg';
 
 
 export const Sidebar = () => {
@@ -15,7 +15,7 @@ export const Sidebar = () => {
       </div>
       
       <div className={styles.downItem}>
-         <LogoutButton label="Выйти" icon={back} />
+         <LogoutButton label="Выйти" icon={logout} />
       </div>
     </aside>
   );
