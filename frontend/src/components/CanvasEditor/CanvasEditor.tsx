@@ -31,7 +31,7 @@ export interface CanvasEditorHandle {
   setToolMode: (tool: string) => void;
   confirmCrop: () => void;
   exportImage: () => string | null;
-  setCropAspectRatio: (ratio: number | null) => void; // <-- Добавили метод в интерфейс
+  setCropAspectRatio: (ratio: number | null) => void;
 }
 
 interface CanvasEditorProps { 
@@ -59,13 +59,11 @@ export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({
   const lastX = useRef(0);
   const lastY = useRef(0);
 
-  // Состояния для интеграции Cropper.js
   const [isCropping, setIsCropping] = useState(false);
   const cropperRef = useRef<Cropper | null>(null);
   const cropperImgRef = useRef<HTMLImageElement | null>(null);
   const [cssFilters, setCssFilters] = useState<string>('none');
 
-  // Синхронизация CSS-фильтров с Cropper.js, чтобы при обрезке картинка выглядела так же, как на холсте
   const updateFilterStyle = () => {
     const brightnessVal = activeFilters.current.brightness !== 0 ? `brightness(${1 + activeFilters.current.brightness / 100})` : '';
     const contrastVal = activeFilters.current.definition !== 0 ? `contrast(${1 + activeFilters.current.definition / 100})` : '';
@@ -146,7 +144,6 @@ export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({
         console.error("Ошибка загрузки изображения:", err);
       });
 
-    // Перетаскивание холста (панорамирование)
     canvas.on('mouse:down', (opt) => {
       const point = opt.viewportPoint || (opt.e ? { x: (opt.e as any).clientX, y: (opt.e as any).clientY } : null);
       if (!point) return;
@@ -189,14 +186,13 @@ export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({
     };
   }, [imageUrl]);
 
-  // Эффект инициализации Cropper.js при переходе в режим обрезки
   useEffect(() => {
     if (isCropping && cropperImgRef.current) {
       const img = imageObject.current;
       
       let cropper: Cropper | null = null;
       cropper = new Cropper(cropperImgRef.current, {
-        viewMode: 1, // Ограничиваем рамку кропа пределами картинки
+        viewMode: 1,
         dragMode: 'move',
         autoCropArea: 1,
         restore: false,
@@ -208,7 +204,6 @@ export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({
         toggleDragModeOnDblclick: false,
         ready() {
           if (img && cropper) {
-            // Инициализируем рамку кропа на месте текущей обрезки в оригинальных пикселях
             cropper.setData({
               x: img.cropX || 0,
               y: img.cropY || 0,
@@ -360,7 +355,6 @@ export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({
       const cropper = cropperRef.current;
       if (!canvas || !img || !cropper) return;
 
-      // Получаем точные координаты кропа относительно исходного разрешения картинки
       const data = cropper.getData(true);
 
       const currentCropX = img.cropX || 0;
@@ -368,7 +362,6 @@ export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({
       const currentScaleX = img.scaleX || 1;
       const currentScaleY = img.scaleY || 1;
 
-      // Вычисляем, где был бы левый верхний угол исходного нескропленного изображения на холсте
       const uncroppedLeft = img.left - (currentCropX * currentScaleX);
       const uncroppedTop = img.top - (currentCropY * currentScaleY);
 
@@ -377,7 +370,6 @@ export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({
       const newWidth = Math.min(originalWidth.current || img.width, data.width);
       const newHeight = Math.min(originalHeight.current || img.height, data.height);
 
-      // Рассчитываем новые left и top на холсте, чтобы картинка визуально осталась на своем месте
       const newLeft = uncroppedLeft + (newCropX * currentScaleX);
       const newTop = uncroppedTop + (newCropY * currentScaleY);
 
@@ -406,7 +398,6 @@ export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({
     setCropAspectRatio: (ratio) => {
       const cropper = cropperRef.current;
       if (cropper) {
-        // Передача NaN отменяет фиксированное соотношение сторон и делает кроп "свободным"
         cropper.setAspectRatio(ratio !== null ? ratio : NaN);
       }
     }
