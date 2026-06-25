@@ -4,6 +4,7 @@
   align-items: center;
   height: 112px;
   background-color: var(--bg-header-footer);
+  z-index: 9999;
 }
 
 .leftPart {
