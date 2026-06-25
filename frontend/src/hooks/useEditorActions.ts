@@ -9,9 +9,12 @@ export const useEditorActions = (currentImageUrl: string | null, photoId: string
     navigate('/account');
   };
 
-  const handleSave = async () => {
+  const handleSave = async (editedUrl?: string | null) => {
     try {
       console.log(`Сохранение изменений для фото ${photoId}...`);
+      if (editedUrl) {
+        console.log('Данные изображения (Base64) подготовлены для сохранения на сервере:', editedUrl.substring(0, 80) + '...');
+      }
       await new Promise(resolve => setTimeout(resolve, 800));
       console.log('Изображение успешно сохранено!');
       return true;
@@ -21,14 +24,15 @@ export const useEditorActions = (currentImageUrl: string | null, photoId: string
     }
   };
 
-  const handleDownload = async () => {
-    if (!currentImageUrl) return;
+  const handleDownload = async (editedUrl?: string | null) => {
+    const urlToDownload = editedUrl || currentImageUrl;
+    if (!urlToDownload) return;
 
-    const isSaved = await handleSave();
+    const isSaved = await handleSave(editedUrl);
 
     if (isSaved) {
       const filename = photoId ? `edited-photo-${photoId}.png` : `edited-photo-${Date.now()}.png`;
-      await download(currentImageUrl, filename);
+      await download(urlToDownload, filename);
     }
   };
 
