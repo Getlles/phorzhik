@@ -5,6 +5,7 @@
   overflow: hidden;
   background-color: #3C3C32;
   box-sizing: border-box;
+  flex: 1;
 }
 
 .canvasWrapper {
