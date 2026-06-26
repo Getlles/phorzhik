@@ -5,6 +5,7 @@ import type { ThemeName } from '../../styles/themes';
 import { themeColors } from '../../styles/themes';
 import { Outlet } from 'react-router-dom';
 
+
 interface LayoutProps {
   theme?: ThemeName;
 }
@@ -14,6 +15,7 @@ export const MainLayout = ({ theme = 'login' }: LayoutProps) => {
 
   return (
     <div className={styles.container}>
+    
       <Header 
         backgroundColor={currentTheme.background}
         circleColor={currentTheme.circle}

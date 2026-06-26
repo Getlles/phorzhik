@@ -34,12 +34,14 @@ export const LoginPage: React.FC = () => {
 
           <form onSubmit={handleLogin}>
             <div className={styles.inputGroup}>
+              
               <Input
                 placeholder="Имя/Адрес эл.почты"
                 value={identifier}
                 onChange={setIdentifier}
                 border={border!}
                 inputText={inputText!}
+                 
               />
               <Input
                 placeholder="Пароль"
@@ -63,7 +65,7 @@ export const LoginPage: React.FC = () => {
                 label="Войти"
                 border={border!}
                 btnText={btnText!}
-                onClick={() => handleLogin()}
+                
               />
             </div>
 

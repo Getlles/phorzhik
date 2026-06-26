@@ -1,9 +1,31 @@
 .button {
-  gap: 24px;
+  display: flex;
+  height: 22px;
+  align-items: center;
+  gap: 12px;
   padding: 24px 22px;
   color: #000000;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  background-color: var(--bg-header-footer);
+  border: 1px solid transparent;
 }
 
 .active {
-  
+
+  color: #000000;
+  border-color: #CABE93;
+}
+
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+
+.text {
+  font-size: 16px;
+  font-weight: 500;
 }
