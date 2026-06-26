@@ -1,32 +1,31 @@
 from pydantic import BaseModel, EmailStr
+from datetime import datetime
+from typing import Optional
 
-# Регистрация
 class UserCreate(BaseModel):
+    username: str
     email: EmailStr
     password: str
 
-# Ответ при успешной регистрации
 class UserOut(BaseModel):
     id: int
+    username: str
     email: str
 
     class Config:
         from_attributes = True
 
-# Запрос на сброс пароля (только email)
 class ForgotPasswordRequest(BaseModel):
     email: EmailStr
 
-# Сброс пароля (email, новый пароль)
 class ResetPasswordRequest(BaseModel):
     email: EmailStr
     new_password: str
 
-# Ответ для изображения
-class ImageOut(BaseModel):
+class PhotoOut(BaseModel):
     id: int
-    filename: str
     filepath: str
+    changed_at: datetime
 
     class Config:
         from_attributes = True
