@@ -4,5 +4,5 @@
   display: flex;
   align-items: center;
   background-color: var(--bg-header-footer);
+  z-index: 9999;
 }
-

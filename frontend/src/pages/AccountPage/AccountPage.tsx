@@ -13,7 +13,7 @@ export const AccountPage: React.FC = () => {
   const { download } = useDownloadPhoto();
 
   const mockPhotos: Photo[] = [
-    { id: '1', imageUrl: 'https://picsum.photos/400/300?random=1', updatedAt: '2026-05-21T12:00:00Z' },
+    { id: '1', imageUrl: 'https://picsum.photos/id/237/400/300', updatedAt: '2026-05-21T12:00:00Z' },
     { id: '2', imageUrl: 'https://picsum.photos/400/300?random=2', updatedAt: '2026-05-21T12:00:00Z' },
     { id: '3', imageUrl: 'https://picsum.photos/400/300?random=3', updatedAt: '2026-05-21T12:00:00Z' },
     { id: '4', imageUrl: 'https://picsum.photos/400/300?random=4', updatedAt: '2026-05-21T12:00:00Z' },
