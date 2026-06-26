@@ -95,3 +95,15 @@
   top: 28%;
   right: 600px;
 }
+
+.statusText {
+  color: #413A26;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.errorText {
+  color: #8c1e1e;
+  font-weight: 500;
+  margin-top: 20px;
+}
