@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, File
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import shutil
@@ -6,14 +7,15 @@ import os
 
 from . import models
 from .database import engine, get_db
-from .schemas import UserCreate, UserOut, ForgotPasswordRequest, ResetPasswordRequest, ImageOut
+from .schemas import UserCreate, UserOut, ForgotPasswordRequest, ResetPasswordRequest, PhotoOut
 
-# Создаём таблицы (если их ещё нет)
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Photo Editor API")
 
-# Разрешаем запросы от фронтенда
+from fastapi.staticfiles import StaticFiles
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,70 +24,93 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Папка для загрузок
 UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "static", "uploads")
 
-# ---------- Эндпоинты ----------
 @app.get("/")
 def root():
     return {"message": "Backend is running"}
 
-# Регистрация
 @app.post("/register", response_model=UserOut)
 def register(user: UserCreate, db: Session = Depends(get_db)):
-    # Проверим, существует ли пользователь с таким email
-    existing = db.query(models.User).filter(models.User.email == user.email).first()
-    if existing:
+    if db.query(models.User).filter(models.User.email == user.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
-    new_user = models.User(email=user.email, password=user.password)
+    if db.query(models.User).filter(models.User.username == user.username).first():
+        raise HTTPException(status_code=400, detail="Username already taken")
+    new_user = models.User(username=user.username, email=user.email, password=user.password)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
     return new_user
 
-# Запрос на сброс пароля – в учебном проекте просто возвращаем токен в ответе
+@app.post("/login")
+def login(email: str, password: str, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.email == email).first()
+    if not user or user.password != password:
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    return {"user_id": user.id, "username": user.username}
+
+# Запрос на сброс пароля (заглушка)
 @app.post("/forgot-password")
 def forgot_password(req: ForgotPasswordRequest, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.email == req.email).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
+    reset_token = "fake-reset-token-123"
     print(f"Reset token for {req.email}: {reset_token}")
     return {"message": "Reset token generated", "token": reset_token}
 
-# Сброс пароля (без проверки токена, для упрощения)
+# Сброс пароля (без проверки токена)
 @app.post("/reset-password")
 def reset_password(req: ResetPasswordRequest, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.email == req.email).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    # Меняем пароль на новый (открытым текстом)
     user.password = req.new_password
     db.commit()
     return {"message": "Password updated successfully"}
 
-# Загрузка изображения в галерею (требуется указать email пользователя)
-@app.post("/upload", response_model=ImageOut)
-async def upload_image(email: str, file: UploadFile = File(...), db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.email == email).first()
+@app.post("/upload", response_model=PhotoOut)
+async def upload_photo(user_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # Сохраняем файл на диск
-    file_location = os.path.join(UPLOAD_DIR, file.filename)
+    unique_name = f"{user_id}_{file.filename}"
+    file_location = os.path.join(UPLOAD_DIR, unique_name)
     with open(file_location, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    # Записываем в БД
-    image = models.Image(filename=file.filename, filepath=f"/static/uploads/{file.filename}", user_id=user.id)
-    db.add(image)
+    relative_path = f"/static/uploads/{unique_name}"
+    photo = models.Photo(filepath=relative_path, user_id=user.id)
+    db.add(photo)
     db.commit()
-    db.refresh(image)
-    return image
+    db.refresh(photo)
+    return photo
 
-# Получение галереи пользователя
-@app.get("/gallery/{email}", response_model=list[ImageOut])
-def get_gallery(email: str, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.email == email).first()
+@app.get("/photos/{photo_id}/download")
+async def download_photo(photo_id: int, user_id: int, db: Session = Depends(get_db)):
+    # Ищем фото по ID
+    photo = db.query(models.Photo).filter(models.Photo.id == photo_id).first()
+    if not photo or photo.user_id != user_id:
+        raise HTTPException(status_code=404, detail="Photo not found")
+
+    relative_path = photo.filepath.lstrip("/")
+    absolute_path = os.path.join(os.path.dirname(__file__), "..", relative_path)
+
+    if not os.path.exists(absolute_path):
+        raise HTTPException(status_code=404, detail="File not found on server")
+
+    original_filename = os.path.basename(photo.filepath)
+
+    return FileResponse(
+        absolute_path,
+        media_type="application/octet-stream",
+        filename=original_filename
+    )
+
+@app.get("/gallery/{user_id}", response_model=list[PhotoOut])
+def get_gallery(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    return user.images
+    return user.photos

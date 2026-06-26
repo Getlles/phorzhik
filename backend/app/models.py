@@ -1,23 +1,24 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from .database import Base
+from datetime import datetime
 
 class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
-    password = Column(String, nullable=False)  # учебный проект – без хеширования
+    password = Column(String, nullable=False)
 
-    # Связь с изображениями
-    images = relationship("Image", back_populates="owner")
+    photos = relationship("Photo", back_populates="owner")
 
-class Image(Base):
-    __tablename__ = "images"
+class Photo(Base):
+    __tablename__ = "photos"
 
     id = Column(Integer, primary_key=True, index=True)
-    filename = Column(String, nullable=False)
-    filepath = Column(String, nullable=False)  # путь относительно сервера
+    filepath = Column(String, nullable=False)
+    changed_at = Column(DateTime, default=datetime.utcnow)
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    owner = relationship("User", back_populates="images")
+    owner = relationship("User", back_populates="photos")
