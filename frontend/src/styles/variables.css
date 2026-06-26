@@ -6,4 +6,11 @@
   --color-circle-log: #A58147;
   --color-circle-edit: #938981;
   --color-circle-personal: #CABE93;
+
+  --input-btn-border-auth: #33362A;
+  --input-btn-border-log: #6F2E2D;
+  --input-text-auth: #696F4F;
+  --input-text-log: #7E6159;
+  --btn-text-auth: #162E09;
+  --btn-text-log: #693A2E;
 }

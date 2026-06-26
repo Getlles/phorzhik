@@ -21,7 +21,7 @@
 }
 
 .title{
-  color: #CABE93;
+  color: var(--color-circle-log);
   font-family: 'Times New Roman', Times, serif;
 
 }

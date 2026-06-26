@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E1BD7F"/>
+      <stop offset="100%" stop-color="#55A053"/>
+    </linearGradient>
+    
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6E282A"/>
+      <stop offset="100%" stop-color="#539043"/>
+    </linearGradient>
+    
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5F192A"/>
+      <stop offset="100%" stop-color="#A77A38"/>
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Темный фон -->
+  <rect width="1920" height="1080" fill="#0d0d1a"/>
+
+  <!-- Фрейм 1 - левый -->
+  <g transform="translate(80, 40)">
+    <rect width="520" height="1000" rx="24" 
+          fill="url(#grad1)" 
+          opacity="0.7"
+          filter="url(#glow)"/>
+    <rect width="520" height="1000" rx="24" 
+          fill="none" 
+          stroke="rgba(255,255,255,0.15)" 
+          stroke-width="1.5"/>
+    <rect x="10" y="10" width="500" height="980" rx="18" 
+          fill="none" 
+          stroke="rgba(255,255,255,0.05)" 
+          stroke-width="1"/>
+    
+    <!-- Заголовок фрейма -->
+    <text x="260" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="rgba(255,255,255,0.4)" font-weight="300" letter-spacing="4">ФРЕЙМ 1</text>
+  </g>
+
+  <!-- Фрейм 2 - центральный -->
+  <g transform="translate(700, 40)">
+    <rect width="520" height="1000" rx="24" 
+          fill="url(#grad2)" 
+          opacity="0.7"
+          filter="url(#glow)"/>
+    <rect width="520" height="1000" rx="24" 
+          fill="none" 
+          stroke="rgba(255,255,255,0.15)" 
+          stroke-width="1.5"/>
+    <rect x="10" y="10" width="500" height="980" rx="18" 
+          fill="none" 
+          stroke="rgba(255,255,255,0.05)" 
+          stroke-width="1"/>
+    
+    <text x="260" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="rgba(255,255,255,0.4)" font-weight="300" letter-spacing="4">ФРЕЙМ 2</text>
+  </g>
+
+  <!-- Фрейм 3 - правый -->
+  <g transform="translate(1320, 40)">
+    <rect width="520" height="1000" rx="24" 
+          fill="url(#grad3)" 
+          opacity="0.7"
+          filter="url(#glow)"/>
+    <rect width="520" height="1000" rx="24" 
+          fill="none" 
+          stroke="rgba(255,255,255,0.15)" 
+          stroke-width="1.5"/>
+    <rect x="10" y="10" width="500" height="980" rx="18" 
+          fill="none" 
+          stroke="rgba(255,255,255,0.05)" 
+          stroke-width="1"/>
+    
+    <text x="260" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="rgba(255,255,255,0.4)" font-weight="300" letter-spacing="4">ФРЕЙМ 3</text>
+  </g>
+
+  <!-- Затемнение поверх всего -->
+  <rect width="1920" height="1080" fill="rgba(0,0,0,0.2)"/>
+</svg>
