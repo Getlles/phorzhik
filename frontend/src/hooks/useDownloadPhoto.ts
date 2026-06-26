@@ -8,11 +8,15 @@ export const useDownloadPhoto = () => {
     setIsDownloading(true);
 
     try {
-      const response = await fetch(url, { mode: 'cors' });
-      if (!response.ok) throw new Error('Ошибка сети при скачивании файла');
+      let blobUrl = url;
       
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
+      if (!url.startsWith('data:')) {
+        const response = await fetch(url, { mode: 'cors' });
+        if (!response.ok) throw new Error('Ошибка сети при скачивании файла');
+        
+        const blob = await response.blob();
+        blobUrl = window.URL.createObjectURL(blob);
+      }
 
       const link = document.createElement('a');
       link.href = blobUrl;
@@ -22,7 +26,10 @@ export const useDownloadPhoto = () => {
       link.click();
 
       document.body.removeChild(link);
-      window.URL.revokeObjectURL(blobUrl);
+      
+      if (!url.startsWith('data:')) {
+        window.URL.revokeObjectURL(blobUrl);
+      }
     } catch (error) {
       console.error('Не удалось скачать файл. Проверка доступа:', error);
       window.open(url, '_blank');
