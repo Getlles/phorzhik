@@ -1,0 +1,15 @@
+.footer {
+  height: 22px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-header-footer);
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
