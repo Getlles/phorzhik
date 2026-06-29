@@ -143,6 +143,7 @@ export const EditorPage: React.FC = () => {
           <CanvasEditor 
             ref={canvasRef} 
             imageUrl={imageUrl} 
+            photoId={photoId}
             onImageLoaded={handleImageLoaded} 
           />
         ) : (

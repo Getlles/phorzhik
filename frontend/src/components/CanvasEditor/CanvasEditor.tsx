@@ -3,6 +3,8 @@ import { Canvas, FabricImage, filters, setFilterBackend, Canvas2dFilterBackend }
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import styles from './CanvasEditor.module.css';
+import { useAuth } from '../../hooks/useAuth';
+import { API_BASE_URL } from '../../services/api';
 
 setFilterBackend(new Canvas2dFilterBackend());
 
@@ -36,18 +38,38 @@ export interface CanvasEditorHandle {
 
 interface CanvasEditorProps { 
   imageUrl: string; 
+  photoId?: string;
   onImageLoaded?: (state: ImageState) => void;
 }
 
-export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({ imageUrl, onImageLoaded }, ref) => {
+interface SmartCropData {
+  target_found: boolean;
+  box: {
+    x_min: number;
+    y_min: number;
+    x_max: number;
+    y_max: number;
+  };
+  img_dimensions: {
+    width: number;
+    height: number;
+  };
+}
+
+export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({ imageUrl, photoId, onImageLoaded }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricCanvas = useRef<Canvas | null>(null);
   const imageObject = useRef<FabricImage | null>(null);
   const currentToolMode = useRef<string>('none');
 
+  const { getUserId } = useAuth();
+  const userId = getUserId();
+
   const originalWidth = useRef<number>(0);
   const originalHeight = useRef<number>(0);
+
+  const [smartCropData, setSmartCropData] = useState<SmartCropData | null>(null);
 
   const activeFilters = useRef<{ [key: string]: number }>({
     brightness: 0,
@@ -72,6 +94,23 @@ export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({
     const filterString = [brightnessVal, contrastVal, blurVal].filter(Boolean).join(' ');
     setCssFilters(filterString || 'none');
   };
+
+  useEffect(() => {
+    if (photoId && userId) {
+      fetch(`${API_BASE_URL}/photos/${photoId}/smart-crop?user_id=${userId}`)
+        .then((res) => {
+          if (!res.ok) throw new Error('Не удалось получить координаты ML');
+          return res.json();
+        })
+        .then((data: SmartCropData) => {
+          setSmartCropData(data);
+          console.log('ML координаты успешно загружены:', data);
+        })
+        .catch((err) => {
+          console.warn('ML-умное обрезание недоступно для этого изображения:', err);
+        });
+    }
+  }, [photoId, userId]);
 
   useEffect(() => {
     if (!canvasRef.current || !containerRef.current) return;
@@ -397,8 +436,62 @@ export const CanvasEditor = forwardRef<CanvasEditorHandle, CanvasEditorProps>(({
 
     setCropAspectRatio: (ratio) => {
       const cropper = cropperRef.current;
-      if (cropper) {
-        cropper.setAspectRatio(ratio !== null ? ratio : NaN);
+      if (!cropper) return;
+
+      cropper.setAspectRatio(ratio !== null ? ratio : NaN);
+
+      if (smartCropData) {
+        const { box, img_dimensions, target_found } = smartCropData;
+
+        const W = img_dimensions.width;
+        const H = img_dimensions.height;
+
+        const x_min = target_found ? box.x_min : 0;
+        const y_min = target_found ? box.y_min : 0;
+        const x_max = target_found ? box.x_max : W;
+        const y_max = target_found ? box.y_max : H;
+
+        const w_obj = x_max - x_min;
+        const h_obj = y_max - y_min;
+        const cx = x_min + w_obj / 2;
+        const cy = y_min + h_obj / 2;
+
+        let w_ideal = w_obj * 1.2;
+        let h_ideal = h_obj * 1.2;
+
+        const targetRatio = ratio !== null ? ratio : w_ideal / h_ideal;
+
+        if (w_ideal / h_ideal > targetRatio) {
+          h_ideal = w_ideal / targetRatio;
+        } else {
+          w_ideal = h_ideal * targetRatio;
+        }
+
+        if (w_ideal > W) {
+          const scale = W / w_ideal;
+          w_ideal = W;
+          h_ideal = h_ideal * scale;
+        }
+        if (h_ideal > H) {
+          const scale = H / h_ideal;
+          h_ideal = H;
+          w_ideal = w_ideal * scale;
+        }
+
+        let x = cx - w_ideal / 2;
+        let y = cy - h_ideal / 2;
+
+        if (x < 0) x = 0;
+        if (x + w_ideal > W) x = W - w_ideal;
+        if (y < 0) y = 0;
+        if (y + h_ideal > H) y = H - h_ideal;
+
+        cropper.setData({
+          x: Math.round(x),
+          y: Math.round(y),
+          width: Math.round(w_ideal),
+          height: Math.round(h_ideal),
+        });
       }
     }
   }));
