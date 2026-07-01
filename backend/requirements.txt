@@ -1,3 +1,10 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+torch
+torchvision
+ultralytics>=8.0.0
+opencv-python-headless>=4.8.0.0
+
 annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.14.0
