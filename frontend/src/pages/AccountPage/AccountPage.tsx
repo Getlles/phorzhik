@@ -8,6 +8,7 @@ import { API_BASE_URL, IMAGE_BASE_URL } from '../../services/api';
 import { getResponseError } from '../../utils/errorHandler';
 import type { Photo } from '../../types/photo';
 import { Sidebar } from '../../layout/SideBar/SideBar';
+import rim from '../../assets/rim.svg'
 
 export const AccountPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,11 +22,11 @@ export const AccountPage: React.FC = () => {
   const userId = getUserId();
   const username = getUsername() || 'Пользователь';
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (!isAuthenticated || !userId) {
       navigate('/login');
     }
-  }, [isAuthenticated, userId, navigate]);
+  }, [isAuthenticated, userId, navigate]);*/
 
   const fetchGallery = async () => {
     if (!userId) return;
@@ -84,11 +85,15 @@ export const AccountPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={`${styles.decor} ${styles.decor1}`}></div>
-      <div className={`${styles.decor} ${styles.decor2}`}></div>
-      <div className={`${styles.decor} ${styles.decor3}`}></div>
-      <div className={`${styles.decor} ${styles.decor4}`}></div>
+        <div className={styles.container}>
+      
+      <div className={`${styles.rimDecor} ${styles.rim1}`} style={{ backgroundImage: `url(${rim})` }}></div>
+      <div className={`${styles.rimDecor} ${styles.rim2}`} style={{ backgroundImage: `url(${rim})` }}></div>
+      <div className={`${styles.rimDecor} ${styles.rim3}`} style={{ backgroundImage: `url(${rim})` }}></div>
+      <div className={`${styles.rimDecor} ${styles.rim4}`} style={{ backgroundImage: `url(${rim})` }}></div>
+      <div className={`${styles.rimDecor} ${styles.rim5}`} style={{ backgroundImage: `url(${rim})` }}></div>
+      <div className={`${styles.rimDecor} ${styles.rim6}`} style={{ backgroundImage: `url(${rim})` }}></div>
+      <div className={`${styles.rimDecor} ${styles.rim7}`} style={{ backgroundImage: `url(${rim})` }}></div>
 
       <div className={styles.content}>
         <Sidebar />

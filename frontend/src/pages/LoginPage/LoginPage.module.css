@@ -78,9 +78,11 @@
   gap: 20px;
   width: 100%;
   margin-bottom: 8px;
+ color: antiquewhite;
   
-  border-color:rgb(21, 210, 216);
 }
+
+
  
 
 .forgotPasswordWrapper {

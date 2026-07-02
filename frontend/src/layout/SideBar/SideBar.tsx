@@ -32,7 +32,7 @@ export const Sidebar = () => {
         
         <button 
           onClick={handleEditorClick} 
-          className={`${styles.downItem} ${location.pathname === '/editor' ? styles.active : ''}`}
+          className={`${styles.MenuEdit} ${location.pathname === '/editor' ? styles.active : ''}`}
           disabled={isUploading}
         >
           <img className={styles.icon} src={redact} alt="Редактировать" />

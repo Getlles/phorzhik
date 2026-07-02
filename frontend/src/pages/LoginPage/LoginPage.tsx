@@ -41,6 +41,7 @@ export const LoginPage: React.FC = () => {
                 onChange={setIdentifier}
                 border={border!}
                 inputText={inputText!}
+                
                  
               />
               <Input
