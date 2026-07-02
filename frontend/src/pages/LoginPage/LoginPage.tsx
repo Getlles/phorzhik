@@ -5,6 +5,7 @@ import { Input } from '../../components/Input/Input';
 import { AuthButton } from '../../components/AuthButton/AuthButton';
 import { themeColors } from '../../styles/themes';
 import { useLogin } from '../../hooks/useLogin';
+import { AuthBackground } from '../../components/Backgrounds/AuthBackground';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,8 +22,7 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.waveDarkBrown}></div>
-      <div className={styles.waveKhaki}></div>
+      <AuthBackground />
 
       <div className={styles.leftColumn}>
         <div className={styles.logoText}>Форжик</div>
@@ -36,12 +36,12 @@ export const LoginPage: React.FC = () => {
             <div className={styles.inputGroup}>
               
               <Input
-                placeholder="Имя/Адрес эл.почты"
+                placeholder="Адрес эл.почты"
                 value={identifier}
                 onChange={setIdentifier}
                 border={border!}
                 inputText={inputText!}
-                 
+                labelBgColor="#9aae69"
               />
               <Input
                 placeholder="Пароль"
@@ -49,6 +49,7 @@ export const LoginPage: React.FC = () => {
                 onChange={setPassword}
                 border={border!}
                 inputText={inputText!}
+                labelBgColor="#a3b06c"
               />
             </div>
 
