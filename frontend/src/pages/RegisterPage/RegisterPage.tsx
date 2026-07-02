@@ -5,6 +5,7 @@ import { Input } from '../../components/Input/Input';
 import { AuthButton } from '../../components/AuthButton/AuthButton';
 import { themeColors } from '../../styles/themes';
 import { useRegister } from '../../hooks/useRegister';
+import { RegBackground } from '../../components/Backgrounds/RegBackground';
 
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -23,9 +24,7 @@ export const RegisterPage: React.FC = () => {
   return (
     <div className={styles.container}>
 
-      <div className={`${styles.wave} ${styles.wave1}`}></div>
-      <div className={`${styles.wave} ${styles.wave2}`}></div>
-      <div className={`${styles.wave} ${styles.wave3}`}></div>
+      <RegBackground />
 
       <div className={styles.logoText}>Форжик</div>
 
@@ -39,7 +38,8 @@ export const RegisterPage: React.FC = () => {
               value={name} 
               onChange={setName} 
               border={border!} 
-              inputText={inputText!} 
+              inputText={inputText!}
+              labelBgColor='#848858' 
             />
             <Input 
               placeholder="Адрес электронной почты" 
@@ -47,6 +47,7 @@ export const RegisterPage: React.FC = () => {
               onChange={setEmail} 
               border={border!} 
               inputText={inputText!} 
+              labelBgColor='#848858'
             />
             <Input 
               placeholder="Пароль" 
@@ -54,6 +55,7 @@ export const RegisterPage: React.FC = () => {
               onChange={setPassword} 
               border={border!} 
               inputText={inputText!} 
+              labelBgColor='#7e8657'
             />
             <Input 
               placeholder="Повторите пароль" 
@@ -61,6 +63,7 @@ export const RegisterPage: React.FC = () => {
               onChange={setConfirmPassword} 
               border={border!} 
               inputText={inputText!} 
+              labelBgColor='#7d8657'
             />
           </div>
 
