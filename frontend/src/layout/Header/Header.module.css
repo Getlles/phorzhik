@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 54px;
+  height: 75px;
   background-color: var(--bg-header-footer);
   z-index: 9999;
 }
@@ -11,13 +11,14 @@
   display: flex;
   align-items: center;
   gap: 15px;
+  margin-left: 25px;
 }
 
 .container {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
+  width: 77px;
   height: 52px;
 }
 
@@ -36,6 +37,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 25px;
 }
 
 
